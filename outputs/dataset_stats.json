@@ -1,0 +1,15 @@
+{
+  "total_rows": 36,
+  "forecast_groups": 25,
+  "tickers": [
+    "AAPL",
+    "NVDA",
+    "TSLA"
+  ],
+  "label_distribution": {
+    "UP": 12,
+    "DOWN": 9,
+    "HOLD": 4
+  },
+  "temporal_leakage_rows": 8
+}

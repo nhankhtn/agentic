@@ -1,0 +1,26 @@
+ticker,forecast_time,prediction,confidence_original,confidence_without,confidence_drop,confidence_drop_random,temporal_validity,evidence_support,faithful_verdict,leakage_count,counterevidence_detected
+AAPL,2025-03-12 09:00,DOWN,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,1,False
+TSLA,2025-03-10 09:00,DOWN,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+NVDA,2025-03-11 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+AAPL,2025-03-15 09:00,UP,0.6,0.6667,-0.0667,-0.4,1.0,1.0,possibly_decorative,0,True
+TSLA,2025-03-08 09:00,HOLD,0.5,0.5,0.0,0.0,1.0,1.0,possibly_decorative,0,False
+NVDA,2025-03-14 09:00,DOWN,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,1,False
+AAPL,2025-03-18 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+TSLA,2025-03-20 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,1,False
+NVDA,2025-03-22 09:00,UP,0.5,0.5,0.0,0.0,1.0,0.0,possibly_decorative,0,False
+AAPL,2025-03-25 09:00,DOWN,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,1,False
+TSLA,2025-03-28 09:00,DOWN,0.5,0.5,0.0,0.0,1.0,0.0,possibly_decorative,1,False
+NVDA,2025-03-30 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+AAPL,2025-04-02 09:00,HOLD,0.5,0.5,0.0,0.0,1.0,1.0,possibly_decorative,0,False
+TSLA,2025-04-03 09:00,DOWN,0.6,0.6667,-0.0667,0.0,1.0,1.0,possibly_decorative,0,True
+NVDA,2025-04-04 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+AAPL,2025-04-05 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+TSLA,2025-04-06 09:00,UP,0.5,0.5,0.0,0.0,1.0,0.0,possibly_decorative,0,False
+NVDA,2025-04-07 09:00,DOWN,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,1,False
+AAPL,2025-04-08 09:00,UP,0.6,0.6667,-0.0667,0.0,1.0,1.0,possibly_decorative,1,True
+TSLA,2025-04-09 09:00,DOWN,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,1,False
+NVDA,2025-04-10 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+AAPL,2025-04-11 09:00,HOLD,0.5,0.5,0.0,0.0,1.0,1.0,possibly_decorative,0,False
+TSLA,2025-04-12 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+NVDA,2025-04-13 09:00,DOWN,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False
+AAPL,2025-04-14 09:00,UP,1.0,0.5,0.5,0.0,1.0,1.0,likely_faithful,0,False

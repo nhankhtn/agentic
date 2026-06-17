@@ -1,0 +1,119 @@
+"""Generate sample_news_price.csv for the prototype."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import pandas as pd
+
+ROWS = [
+    # AAPL DOWN — faithful case + leakage
+    ("AAPL", "2025-03-12 09:00", "N001", "2025-03-11 08:30", "Apple reports weak iPhone sales in China",
+     "Apple Inc. today reported weak iPhone sales in China amid supply chain disruption and declining demand.", -0.02, 0.15, "DOWN"),
+    ("AAPL", "2025-03-12 09:00", "N002", "2025-03-12 15:30", "Apple announces new MacBook lineup",
+     "Apple announces new MacBook lineup with improved chips at an afternoon product event.", -0.02, 0.15, "DOWN"),
+    # TSLA DOWN — misses delivery
+    ("TSLA", "2025-03-10 09:00", "N003", "2025-03-09 14:00", "Tesla misses delivery expectations",
+     "Tesla misses delivery expectations for the quarter as production faces shortage and recall issues.", -0.03, 0.22, "DOWN"),
+    ("TSLA", "2025-03-10 09:00", "N004", "2025-03-09 16:00", "Analyst downgrades Tesla outlook",
+     "Wall Street analyst issues downgrade citing weak guidance and margin decline concerns.", -0.03, 0.22, "DOWN"),
+    # NVDA UP — beats earnings
+    ("NVDA", "2025-03-11 09:00", "N005", "2025-03-10 07:00", "NVIDIA beats earnings forecast",
+     "NVIDIA beats earnings forecast with record profit driven by strong AI chip demand and surge in data center revenue.", 0.04, 0.30, "UP"),
+    # AAPL UP — counterevidence (launch vs weak sales)
+    ("AAPL", "2025-03-15 09:00", "N006", "2025-03-14 10:00", "Apple launches new product line",
+     "Apple launches new product line with innovation features expected to boost growth this quarter.", 0.01, 0.10, "UP"),
+    ("AAPL", "2025-03-15 09:00", "N007", "2025-03-14 11:00", "iPhone sales in China show decline",
+     "iPhone sales in China show decline according to channel checks and weak retailer reports.", 0.01, 0.10, "UP"),
+    # TSLA HOLD — neutral meeting
+    ("TSLA", "2025-03-08 09:00", "N008", "2025-03-07 13:00", "Tesla holds annual investor meeting",
+     "Tesla holds annual investor meeting to discuss schedule and review long-term strategy plans.", 0.0, 0.05, "HOLD"),
+    ("TSLA", "2025-03-08 09:00", "N009", "2025-03-07 15:00", "CEO to announce roadmap update",
+     "CEO to announce roadmap update and consider expansion options at the upcoming session.", 0.0, 0.05, "HOLD"),
+    # NVDA DOWN
+    ("NVDA", "2025-03-14 09:00", "N010", "2025-03-13 09:00", "NVIDIA faces export restriction risk",
+     "NVIDIA faces export restriction risk as regulators warn on shortage of approved shipments overseas.", -0.025, 0.18, "DOWN"),
+    ("NVDA", "2025-03-14 09:00", "N011", "2025-03-14 09:00", "Chipmaker reports after forecast time",
+     "Chipmaker reports after forecast time and should be excluded due to temporal leakage rules.", -0.025, 0.18, "DOWN"),
+    # AAPL UP
+    ("AAPL", "2025-03-18 09:00", "N012", "2025-03-17 08:00", "Apple posts strong services growth",
+     "Apple posts strong services growth and profit beat as iPhone demand shows rally in key markets.", 0.02, 0.12, "UP"),
+    # TSLA UP + leakage
+    ("TSLA", "2025-03-20 09:00", "N013", "2025-03-19 12:00", "Tesla delivery surge in Europe",
+     "Tesla delivery surge in Europe beats estimates with strong growth and record partnership deals.", 0.035, 0.25, "UP"),
+    ("TSLA", "2025-03-20 09:00", "N014", "2025-03-20 11:00", "Future leak: Tesla event tonight",
+     "Future leak: Tesla event tonight will unveil updates that markets have not priced yet today.", 0.035, 0.25, "UP"),
+    # NVDA HOLD
+    ("NVDA", "2025-03-22 09:00", "N015", "2025-03-21 10:00", "NVIDIA to report quarterly results",
+     "NVIDIA to report quarterly results and hold analyst meeting to discuss product roadmap plans.", 0.005, 0.08, "HOLD"),
+    # AAPL DOWN — lawsuit
+    ("AAPL", "2025-03-25 09:00", "N016", "2025-03-24 09:30", "Apple hit with lawsuit in EU",
+     "Apple hit with lawsuit in EU over app store policies causing concern among investors and analysts.", -0.015, 0.14, "DOWN"),
+    ("AAPL", "2025-03-25 09:00", "N017", "2025-03-25 09:00", "Leak at exact forecast time",
+     "Leak at exact forecast time must be filtered because news_time equals forecast_time boundary.", -0.015, 0.14, "DOWN"),
+    # TSLA DOWN — recall
+    ("TSLA", "2025-03-28 09:00", "N018", "2025-03-27 08:00", "Tesla recalls vehicles over software",
+     "Tesla recalls vehicles over software safety issue and warns of potential production delay.", -0.04, 0.20, "DOWN"),
+    ("TSLA", "2025-03-28 09:00", "N019", "2025-03-28 16:00", "After-hours Tesla headline",
+     "After-hours Tesla headline about deliveries should be excluded from morning forecast input.", -0.04, 0.20, "DOWN"),
+    # NVDA UP
+    ("NVDA", "2025-03-30 09:00", "N020", "2025-03-29 07:30", "NVIDIA unveils next-gen AI chip",
+     "NVIDIA unveils next-gen AI chip with record performance upgrade and strong partnership support.", 0.05, 0.35, "UP"),
+    # Extra groups for coverage
+    ("AAPL", "2025-04-02 09:00", "N021", "2025-04-01 08:00", "Apple maintains dividend policy",
+     "Apple maintains dividend policy and will hold annual report session with investors next week.", 0.0, 0.06, "HOLD"),
+    ("TSLA", "2025-04-03 09:00", "N022", "2025-04-02 09:00", "Tesla profit declines year over year",
+     "Tesla profit declines year over year as price cuts weigh on margins and weak demand persists.", -0.02, 0.16, "DOWN"),
+    ("NVDA", "2025-04-04 09:00", "N023", "2025-04-03 10:00", "NVIDIA partnership boosts outlook",
+     "NVIDIA partnership boosts outlook with cloud providers announcing expanded AI infrastructure growth.", 0.03, 0.28, "UP"),
+    ("AAPL", "2025-04-05 09:00", "N024", "2025-04-04 11:00", "Apple beats revenue expectations",
+     "Apple beats revenue expectations on strong iPhone demand and upgrade cycle in emerging markets.", 0.025, 0.11, "UP"),
+    ("TSLA", "2025-04-06 09:00", "N025", "2025-04-05 08:00", "Tesla announces factory expansion",
+     "Tesla announces factory expansion plan and schedule for new production lines in Texas facility.", 0.01, 0.09, "UP"),
+    ("NVDA", "2025-04-07 09:00", "N026", "2025-04-06 14:00", "NVIDIA misses analyst estimates",
+     "NVIDIA misses analyst estimates as data center spending shows decline in the latest monthly report.", -0.03, 0.19, "DOWN"),
+    # More leakage rows
+    ("NVDA", "2025-04-07 09:00", "N027", "2025-04-07 12:00", "Late NVDA headline after open",
+     "Late NVDA headline after open should not be used for the morning forecast at nine o clock.", -0.03, 0.19, "DOWN"),
+    ("AAPL", "2025-04-08 09:00", "N028", "2025-04-07 07:00", "Apple supply chain improves",
+     "Apple supply chain improves with strong logistics partnership and reduced shortage risk this quarter.", 0.015, 0.07, "UP"),
+    ("AAPL", "2025-04-08 09:00", "N029", "2025-04-08 10:00", "Leak after forecast AAPL",
+     "Leak after forecast AAPL product rumor published after the official forecast timestamp.", 0.015, 0.07, "UP"),
+    ("TSLA", "2025-04-09 09:00", "N030", "2025-04-08 06:00", "Tesla faces layoff reports",
+     "Tesla faces layoff reports at several facilities raising concern about near-term cost cutting.", -0.022, 0.13, "DOWN"),
+    ("TSLA", "2025-04-09 09:00", "N031", "2025-04-09 09:00", "Boundary leak same minute",
+     "Boundary leak same minute as forecast and must be excluded from valid news under retriever rules.", -0.022, 0.13, "DOWN"),
+    ("NVDA", "2025-04-10 09:00", "N032", "2025-04-09 08:00", "NVIDIA launches developer platform",
+     "NVIDIA launches developer platform with innovation tools to accelerate enterprise AI adoption growth.", 0.02, 0.21, "UP"),
+    ("AAPL", "2025-04-11 09:00", "N033", "2025-04-10 09:00", "Apple and supplier discuss meeting",
+     "Apple and supplier discuss meeting to review production targets and maintain current build schedules.", 0.0, 0.04, "HOLD"),
+    ("TSLA", "2025-04-12 09:00", "N034", "2025-04-11 07:00", "Tesla stock rally on delivery rumor",
+     "Tesla stock rally on delivery rumor as traders expect surge in quarterly shipment numbers soon.", 0.028, 0.26, "UP"),
+    ("NVDA", "2025-04-13 09:00", "N035", "2025-04-12 08:00", "NVIDIA warns on margin pressure",
+     "NVIDIA warns on margin pressure and potential drop in gaming segment revenue this quarter.", -0.018, 0.17, "DOWN"),
+    ("AAPL", "2025-04-14 09:00", "N036", "2025-04-13 10:00", "Apple upgrade from major bank",
+     "Apple upgrade from major bank cites strong profit outlook and launch pipeline for next year.", 0.032, 0.15, "UP"),
+]
+
+
+def main() -> None:
+    columns = [
+        "ticker",
+        "forecast_time",
+        "news_id",
+        "news_time",
+        "news_title",
+        "news_text",
+        "price_5d_return",
+        "volume_change",
+        "label",
+    ]
+    df = pd.DataFrame(ROWS, columns=columns)
+    out = Path(__file__).resolve().parents[1] / "data" / "sample_news_price.csv"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(out, index=False)
+    print(f"Wrote {len(df)} rows to {out}")
+
+
+if __name__ == "__main__":
+    main()

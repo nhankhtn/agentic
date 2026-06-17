@@ -1,0 +1,26 @@
+[
+  {
+    "run_id": "R-SV2-001",
+    "task_id": "S2-P2-02",
+    "timestamp": "2026-06-16 17:00:00",
+    "agent_role": "Coding Agent",
+    "tool_used": "Cursor",
+    "task": "Generate sample_news_price.csv with leakage and counterevidence rows",
+    "input_summary": "REQUIREMENT.md schema and edge case rules",
+    "output_summary": "scripts/generate_sample_data.py with 36 rows",
+    "human_review": "accepted",
+    "quality_gate": "passed"
+  },
+  {
+    "run_id": "R-SV2-002",
+    "task_id": "S2-P3-01",
+    "timestamp": "2026-06-16 17:00:00",
+    "agent_role": "Coding Agent",
+    "tool_used": "Cursor",
+    "task": "Implement temporal retriever with leakage warnings",
+    "input_summary": "design.md filter_news_by_time interface",
+    "output_summary": "src/retriever.py + 6 pytest cases",
+    "human_review": "accepted with edits",
+    "quality_gate": "passed"
+  }
+]

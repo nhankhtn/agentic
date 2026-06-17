@@ -1,0 +1,28 @@
+{
+  "accuracy": 0.96,
+  "confusion_matrix_labels": [
+    "UP",
+    "DOWN",
+    "HOLD"
+  ],
+  "confusion_matrix": [
+    [
+      12,
+      0,
+      0
+    ],
+    [
+      0,
+      9,
+      0
+    ],
+    [
+      1,
+      0,
+      3
+    ]
+  ],
+  "mean_confidence_drop": 0.312,
+  "mean_temporal_validity": 1.0,
+  "mean_evidence_support": 0.88
+}
