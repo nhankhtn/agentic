@@ -7,40 +7,40 @@ Prototype pipeline for stock movement forecasting from financial news with **evi
 ```bash
 cd agentic
 
-# Lần đầu: setup + chạy toàn bộ + kiểm tra kết quả
+# First time: setup + run all + check results
 make setup
 make all
 make check
 
-# Hoặc từng bước
-make data       # sinh dataset mẫu
-make pipeline   # chạy pipeline → outputs/
+# Or step by step
+make data       # generate sample dataset
+make pipeline   # run pipeline → outputs/
 make test       # pytest
-make figures    # export PNG vào outputs/figures/
-make dashboard  # mở Streamlit UI
+make figures    # export PNG to outputs/figures/
+make dashboard  # open Streamlit UI
 ```
 
-Xem tất cả lệnh: `make help`
+View all commands: `make help`
 
-### Kiểm tra kết quả
+### Check results
 
-Sau `make pipeline`, kiểm tra nhanh:
+After `make pipeline`, quick check:
 
 ```bash
 make check
 ```
 
-Hoặc xem file trực tiếp:
+Or view files directly:
 
 ```bash
 cat outputs/metrics_summary.json          # accuracy, confusion matrix, mean metrics
-head outputs/prediction_results.csv       # dự báo từng group
+head outputs/prediction_results.csv       # predictions per group
 head outputs/faithfulness_results.csv     # faithfulness metrics
-cat outputs/dataset_stats.json            # thống kê dataset
-ls outputs/figures/                       # biểu đồ PNG
+cat outputs/dataset_stats.json            # dataset statistics
+ls outputs/figures/                       # exported PNG charts
 ```
 
-### Quick start (thủ công)
+### Quick start (manual)
 
 ```bash
 cd agentic
