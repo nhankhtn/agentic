@@ -1,5 +1,44 @@
 [
   {
+    "run_id": "R-SV1-001",
+    "task_id": "P1-01",
+    "timestamp": "2025-06-18 09:15:00",
+    "agent_role": "Research Agent",
+    "tool_used": "Antigravity (Claude Sonnet)",
+    "task": "Suggest structure and content for proposal.md according to OpenSpec standard",
+    "input_summary": "Requirement: write a proposal for a stock trend forecasting system from news with faithfulness verification. Must include: background, objectives, technical challenges, roles, and timeline.",
+    "output_summary": "Agent proposed a 9-section structure: background & motivation, research questions, objectives, technical challenges, agentic SDLC, expected outcomes, roles, timeline, references. Includes a comparison table of prediction accuracy vs explanation faithfulness.",
+    "human_review": "accepted with edits",
+    "quality_gate": "passed",
+    "notes": "Revised the objectives section to clarify prototype scope; added specific NVDA/TSLA examples to the background. QG-03 passed after review by SV2 and SV3."
+  },
+  {
+    "run_id": "R-SV1-002",
+    "task_id": "P1-04",
+    "timestamp": "2025-06-18 14:30:00",
+    "agent_role": "Research Agent",
+    "tool_used": "Antigravity (Claude Sonnet)",
+    "task": "Create User Stories and Acceptance Criteria for specs/forecasting/spec.md",
+    "input_summary": "Requirement: write ≥5 user stories in the format 'As a [role], I want [feature], So that [benefit]' for the forecasting system. Each story must have measurable acceptance criteria. Actors: Researcher, Reviewer, System.",
+    "output_summary": "Agent created 6 user stories: Temporal Filtering, Evidence Extraction, Stock Forecasting, Faithfulness Evaluation, Dashboard Visualization, Agentic SDLC Traceability. Each story has 6-8 specific acceptance criteria with conditions and expected outcomes.",
+    "human_review": "accepted with edits",
+    "quality_gate": "passed",
+    "notes": "Adjusted AC-04-06 from 0.05 threshold to 3-level classification (likely_faithful / uncertain / possibly_decorative). Added US-06 on agent trace after initial proposal. QG-03 passed."
+  },
+  {
+    "run_id": "R-SV1-003",
+    "task_id": "P1-07",
+    "timestamp": "2025-06-18 16:00:00",
+    "agent_role": "Research Agent",
+    "tool_used": "Antigravity (Claude Sonnet)",
+    "task": "Draft metric_definition.md with complete definitions, illustrative examples, and advanced metrics",
+    "input_summary": "Requirement: write a document defining 3 basic metrics (Temporal Validity, Evidence Support, Confidence Drop) and 4 advanced metrics (Sufficiency, Counterfactual Drop, Counterevidence Coverage, Market Consistency). Must include mathematical formulas, concrete numerical examples, and edge cases.",
+    "output_summary": "Agent prepared a comprehensive document: 4 basic metrics (A1-A4) with illustrative AAPL examples for each, 4 advanced metrics (B1-B4) with formulas and interpretations, an 8-metric summary table, and academic references.",
+    "human_review": "accepted with edits",
+    "quality_gate": "passed",
+    "notes": "Added a summary table at the end. Added 'Interpretation when low' column to the summary table. Added an explanation of why faithfulness metrics are needed at the beginning of the document. QG-03 passed."
+  },
+  {
     "run_id": "R-SV2-001",
     "task_id": "S2-P2-02",
     "timestamp": "2026-06-16 17:00:00",
