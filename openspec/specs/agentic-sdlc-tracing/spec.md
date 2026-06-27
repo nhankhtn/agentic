@@ -1,6 +1,26 @@
 # Purpose
 Track and log AI agent activities during the SDLC for auditing and review.
 
+## Input / Output
+
+**Input:**
+- AI agent interactions during development: tool used, task description, input summary, output summary
+- Human review decisions: accepted / accepted with edits / rejected
+
+**Output:**
+- `outputs/run_log.json`: JSON array of trace entries, each with 10 required fields
+- Audit trail enabling reviewers to verify AI agent contributions across SDLC phases
+
+## AI Agent Roles in SDLC Phases
+
+| SDLC Phase | Agent Role | Tasks | Example |
+|---|---|---|---|
+| **Requirements & Planning** | Research Agent | Literature review, dataset schema design, metric definition, spec drafting | "Research faithfulness metrics from XAI literature" |
+| **Design** | Research Agent | Architecture decisions, pipeline design, technology comparison | "Compare rule-based vs FinBERT for evidence extraction" |
+| **Implementation** | Coding Agent | Write source code, implement functions, integrate modules | "Implement `filter_news_by_time()` in retriever.py" |
+| **Testing & QA** | Testing Agent | Write unit tests, run edge case tests, validate output schemas | "Write 5 boundary tests for temporal leakage filter" |
+| **Review & Reflection** | All Agents | Self-evaluate output quality, suggest improvements, retrospective | "Review test coverage and suggest missing edge cases" |
+
 ## Requirements
 
 ### Requirement: System SHALL maintain agent trace log
@@ -46,3 +66,14 @@ All AI-assisted code and test artifacts SHALL pass through a quality gate (human
 #### Scenario: Failed quality gate
 - **WHEN** `quality_gate = "failed"` for any entry
 - **THEN** the AI agent output SHALL be rejected or regenerated — it SHALL NOT be used as-is
+
+### Requirement: Trace log SHALL include agent reflection entries
+The trace log SHALL include entries where agents reflect on their own output quality, identifying what worked well and what could be improved.
+
+#### Scenario: Reflection entry exists
+- **WHEN** `outputs/run_log.json` is inspected
+- **THEN** at least 1 entry SHALL have `task` describing self-evaluation or retrospective analysis of previous agent outputs
+
+#### Scenario: Reflection covers improvement suggestions
+- **WHEN** a reflection entry is inspected
+- **THEN** `output_summary` SHALL contain at least 1 specific improvement suggestion or lesson learned

@@ -12,6 +12,16 @@ We need a prototype to verify the **faithfulness** of evidence: does the evidenc
 - Create an interactive Streamlit dashboard with 4 tabs: Prediction Overview, Evidence Explorer, Faithfulness Analysis, Temporal Leakage Monitor
 - Adopt Agentic SDLC with 3 AI Agent roles (Research, Coding, Testing), enforcing quality gates and human review
 
+### AI Agent × SDLC Phase Mapping
+
+| SDLC Phase | Agent Role | What the Agent Does |
+|---|---|---|
+| Requirements & Planning | Research Agent | Literature review, dataset schema design, metric definitions, spec drafting |
+| Design | Research Agent | Architecture decisions (D1-D6), pipeline design, technology comparison |
+| Implementation | Coding Agent | Write Python modules (retriever, extractor, model, metrics, dashboard) |
+| Testing & QA | Testing Agent | Write pytest tests, edge case validation, output schema verification |
+| Review & Reflection | All Agents | Self-evaluate quality, suggest improvements, retrospective analysis |
+
 ## Capabilities
 
 ### New Capabilities

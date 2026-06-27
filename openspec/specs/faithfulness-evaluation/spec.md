@@ -1,6 +1,22 @@
 # Purpose
 Compute metrics to evaluate the faithfulness of evidence used in stock forecasting predictions.
 
+## Input / Output
+
+**Input:**
+- `cited_evidence`: list of evidence dicts cited by the forecast model
+- `prediction`: str — "UP" | "DOWN" | "HOLD"
+- `forecast_time`: datetime str — the forecast timestamp
+- `confidence_original`: float — model confidence with all evidence
+- `confidence_without_evidence`: float — model confidence after removing cited evidence
+
+**Output:**
+- `temporal_validity`: float in [0.0, 1.0] — ratio of temporally valid cited evidence
+- `evidence_support`: float in [0.0, 1.0] — ratio of direction-aligned cited evidence
+- `confidence_drop`: float — `confidence_original - confidence_without_evidence`
+- `faithful_verdict`: "likely_faithful" | "uncertain" | "possibly_decorative"
+- CSV file: `outputs/faithfulness_results.csv` with all metrics per prediction
+
 ## Requirements
 
 ### Requirement: System SHALL compute Temporal Validity metric
@@ -58,3 +74,36 @@ The system SHALL write faithfulness evaluation results to `outputs/faithfulness_
 #### Scenario: Output file schema
 - **WHEN** the pipeline completes
 - **THEN** `faithfulness_results.csv` SHALL contain columns: ticker, forecast_time, prediction, confidence_original, confidence_without_evidence, confidence_drop, temporal_validity, evidence_support, leakage_count, faithful_verdict
+
+### Requirement: (Advanced B1) System SHALL compute Sufficiency and Counterfactual Perturbation
+The system SHALL test whether cited evidence alone is sufficient to reproduce the prediction, and whether replacing evidence with neutral/counterfactual text changes the outcome.
+
+#### Scenario: Sufficiency test
+- **WHEN** only cited evidence (without other news) is used as input
+- **THEN** the system SHALL output a sufficiency prediction and compare it against the original prediction
+
+#### Scenario: Counterfactual perturbation
+- **WHEN** cited evidence is replaced with neutral text (e.g., "Company holds annual meeting")
+- **THEN** the system SHALL re-run prediction and report whether the outcome changes
+
+### Requirement: (Advanced B2) System SHALL compute Counterevidence Coverage
+The system SHALL identify both pro-evidence (supporting prediction) and counterevidence (opposing prediction) and compute coverage metrics.
+
+#### Scenario: Pro and counter separation
+- **WHEN** evidence is extracted for a prediction
+- **THEN** the system SHALL separate evidence into `pro_evidence` (aligning with prediction) and `counter_evidence` (opposing prediction)
+
+#### Scenario: Coverage metric
+- **WHEN** counterevidence exists for a prediction
+- **THEN** `counterevidence_coverage` SHALL equal `counter_count / total_evidence_count`
+
+### Requirement: (Advanced B3) System SHALL compute Market Consistency
+The system SHALL compare evidence polarity with actual market reaction (next-day return and volume change) to assess consistency.
+
+#### Scenario: Consistent evidence
+- **WHEN** negative evidence is cited AND `next_day_return < 0` AND volume increases
+- **THEN** `market_consistency` SHALL be classified as "high"
+
+#### Scenario: Inconsistent evidence
+- **WHEN** negative evidence is cited BUT `next_day_return > 0`
+- **THEN** `market_consistency` SHALL be classified as "low"

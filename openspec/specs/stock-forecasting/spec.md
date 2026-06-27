@@ -1,6 +1,21 @@
 # Purpose
 Predict stock movement direction (UP/DOWN/HOLD) based on aggregated evidence and price features.
 
+## Input / Output
+
+**Input:**
+- `evidence_list`: List of evidence dicts (from evidence extractor), each with `polarity`, `expected_direction`
+- `price_features`: dict containing `price_5d_return` (float)
+- `ticker`: str — stock ticker symbol
+- `forecast_time`: datetime str — the forecast timestamp
+
+**Output:**
+- `prediction`: "UP" | "DOWN" | "HOLD"
+- `confidence`: float in [0.0, 1.0]
+- `cited_evidence`: list of evidence items supporting the prediction
+- `rationale`: str — human-readable explanation of the reasoning
+- `confidence_drop`: float — confidence difference when cited evidence is removed
+
 ## Requirements
 
 ### Requirement: System SHALL predict stock movement direction
@@ -50,3 +65,14 @@ The system SHALL compute confidence drop by removing cited evidence and re-runni
 #### Scenario: Confidence drop calculation
 - **WHEN** cited evidence is removed from the input and the model re-runs
 - **THEN** `confidence_drop` SHALL equal `confidence_original - confidence_without_cited`
+
+### Requirement: System SHALL report prediction accuracy metrics
+The system SHALL compute and output overall accuracy and a confusion matrix comparing predictions against actual labels.
+
+#### Scenario: Accuracy computation
+- **WHEN** predictions for all forecast groups are compared against actual labels
+- **THEN** the system SHALL output `overall_accuracy` as a float in [0.0, 1.0]
+
+#### Scenario: Confusion matrix output
+- **WHEN** predictions are evaluated
+- **THEN** a 3×3 confusion matrix (UP/DOWN/HOLD) SHALL be generated and saved to `outputs/prediction_results.csv` or displayed in the report

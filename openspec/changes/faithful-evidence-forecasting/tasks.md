@@ -36,7 +36,8 @@
 - [ ] 5.3 Integrate price_5d_return signal (+0.5 to positive/negative count)
 - [ ] 5.4 Run predict on full dataset and save to outputs/prediction_results.csv
 - [ ] 5.5 Compute accuracy and confusion matrix using sklearn.metrics
-- [ ] 5.6 Write docstrings and type hints for forecast_model.py
+- [ ] 5.6 Save accuracy and 3×3 confusion matrix (UP/DOWN/HOLD) to outputs/ or report
+- [ ] 5.7 Write docstrings and type hints for forecast_model.py
 
 ## 6. Faithfulness Metrics (src/faithfulness_metrics.py)
 
@@ -71,11 +72,12 @@
 ## 9. Agent Trace & Documentation
 
 - [ ] 9.1 Create outputs/run_log.json with ≥6 entries covering 3 agent roles (Research, Coding, Testing)
-- [ ] 9.2 Write metric_definition.md with formulas, examples, and interpretation guide
-- [ ] 9.3 Write report sections 1-3 (introduction, research gap, agentic SDLC design)
-- [ ] 9.4 Write report sections 4-5 (dataset description, pipeline technical details)
-- [ ] 9.5 Write report sections 6-7 (metric results, experimental analysis)
-- [ ] 9.6 Write report sections 8-9 (case analysis, limitations — at least 3 specific limitations)
-- [ ] 9.7 Finalize and export report as PDF (5-8 pages)
-- [ ] 9.8 Record demo video (~5 minutes) and create demo_video_link.txt
-- [ ] 9.9 Final submission checklist review
+- [ ] 9.2 Add ≥1 reflection entry in run_log.json where agent self-evaluates output quality and suggests improvements
+- [ ] 9.3 Write metric_definition.md with formulas, examples, and interpretation guide
+- [ ] 9.4 Write report sections 1-3 (introduction, research gap, agentic SDLC design)
+- [ ] 9.5 Write report sections 4-5 (dataset description, pipeline technical details)
+- [ ] 9.6 Write report sections 6-7 (metric results, experimental analysis)
+- [ ] 9.7 Write report sections 8-9 (case analysis, limitations — at least 3 specific limitations)
+- [ ] 9.8 Finalize and export report as PDF (5-8 pages)
+- [ ] 9.9 Record demo video (~5 minutes) and create demo_video_link.txt
+- [ ] 9.10 Final submission checklist review

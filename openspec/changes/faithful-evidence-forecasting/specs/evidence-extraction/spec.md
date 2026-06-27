@@ -1,3 +1,16 @@
+## ADDED Input / Output
+
+**Input:**
+- `news_text`: str — full text content of a news article
+- `news_id`: str — unique identifier for the article
+
+**Output:**
+- List of evidence dicts, each containing:
+  - `evidence_text` (str): the extracted phrase
+  - `polarity` ("positive" | "negative" | "neutral")
+  - `expected_direction` ("UP" | "DOWN" | "HOLD")
+  - `confidence` (float): extraction confidence score
+
 ## ADDED Requirements
 
 ### Requirement: System SHALL extract evidence from news text
@@ -32,3 +45,10 @@ The evidence extractor SHALL extract at least one evidence item from a minimum p
 #### Scenario: Coverage threshold
 - **WHEN** the extractor runs on the entire `data/sample_news_price.csv` dataset
 - **THEN** at least 80% of valid news articles SHALL produce at least 1 evidence item
+
+### Requirement: System SHALL provide validation examples
+The evidence extractor SHALL be validated with concrete correct and incorrect extraction examples.
+
+#### Scenario: Minimum validation examples
+- **WHEN** the evidence extractor is tested
+- **THEN** at least 5 examples SHALL be documented showing correct extractions (keyword → polarity → direction) and incorrect/edge-case extractions

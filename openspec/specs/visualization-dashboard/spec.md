@@ -1,6 +1,18 @@
 # Purpose
 Provide an interactive dashboard for users to analyze stock movement predictions, evidence used, faithfulness metrics, and temporal leakage monitoring.
 
+## Input / Output
+
+**Input:**
+- `outputs/prediction_results.csv`: Predictions with columns (ticker, forecast_time, prediction, confidence, label, correct)
+- `outputs/faithfulness_results.csv`: Faithfulness metrics per prediction
+- `outputs/metrics_summary.json`: Aggregated summary metrics
+
+**Output:**
+- Streamlit web app with 4 interactive tabs
+- 4 static PNG figures exported to `outputs/figures/`
+- Visual warnings (⚠️) for temporal leakage and low faithfulness
+
 ## Requirements
 
 ### Requirement: Dashboard SHALL provide Prediction Overview tab
@@ -39,6 +51,10 @@ The dashboard SHALL visualize faithfulness metrics for all predictions.
 #### Scenario: Verdict table
 - **WHEN** the user opens Tab 3
 - **THEN** a table SHALL show confidence_original vs confidence_without_evidence with a verdict column
+
+#### Scenario: Faithfulness radar chart
+- **WHEN** the user opens Tab 3
+- **THEN** a radar chart SHALL display multi-dimensional faithfulness metrics (temporal_validity, evidence_support, confidence_drop) for the selected prediction or overall averages
 
 ### Requirement: Dashboard SHALL provide Temporal Leakage Monitor tab
 The dashboard SHALL display all news articles that were filtered due to temporal leakage.

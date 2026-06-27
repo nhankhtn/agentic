@@ -1,6 +1,17 @@
 # Purpose
 Filter news articles based on publication time relative to forecast time to prevent temporal leakage.
 
+## Input / Output
+
+**Input:**
+- `news_list`: List of news article dicts, each containing `news_id` (str), `news_time` (datetime str), `news_text` (str), `ticker` (str)
+- `forecast_time`: datetime string (e.g., `"2025-03-12 09:00"`) — the cutoff timestamp
+
+**Output:**
+- `valid_news[]`: List of news articles with `news_time < forecast_time`
+- `invalid_future_news[]`: List of filtered articles with `news_time >= forecast_time`
+- `leakage_count`: int — total number of filtered future articles
+
 ## Requirements
 
 ### Requirement: System SHALL filter news by temporal validity
